@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Inertia Game</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/2007d8d74e.js" crossorigin="anonymous"></script>
+    <link href="style.css" rel="stylesheet">
+    <link rel="shortcut icon" href="#" />
+</head>
+<body>
+    <div id="container" class="col">
+        <div id="header" class="row1">
+
+            <!-- This is the Intro pop-up Window--> 
+
+            <!-- Once signin, it shoud show to the users--> 
+
+            <div class="hover_bkgr_fricc" id="Intro">
+                <span class="helper"></span>
+                <div>
+                    <div class="popupCloseButton" id="popupCloseButton_Intro">&times;</div>
+                    <p id ="Room-Intro">
+                        <b>Welcome to Inertia Game!</b>
+                        <br>
+                        <br>
+                        You can click <button>Join</button> to pair up with another player for starting the game.
+                        If the room is full, you could be the audience and watch the match of the players.
+                        <br>
+                        <br>
+                        Click <button>About</button> for more information of the game.
+                        If you are new to this game, you can click <button>Help</button> for the game instructions.
+                        <br>
+                        <br>
+                        <b>Have Fun!</b>
+                    </p>
+                </div>
+            </div>
+
+            <div class="hover_bkgr_fricc" id="About_hover">
+                <span class="helper"></span>
+                <div>
+                    <div class="popupCloseButton" id="popupCloseButton_About">&times;</div>
+                    <p id ="About-Intro">
+                        <b>Game Description</b>
+                        <br>
+                        <br>
+                        <b>Inertia </b> 
+                        is a puzzle game, originally implemented by <b>Ben Olmstead</b>. 
+                        <br>
+                        <br>
+                        The objective of this game is to collect all gems without running into mines,
+                        with the added twist that you will not stop once you start moving until you hit either a wall, a "stop cell", a mine, or the border of the game board.
+                    </p>
+                </div>
+            </div>
+
+            <div class="hover_bkgr_fricc" id="Help_hover">
+                <span class="helper"></span>
+                <div>
+                    <div class="popupCloseButton" id="popupCloseButton_Help">&times;</div>
+                    <p id ="Help-Intro">
+                        <b>Game Instructions</b>
+                        <br>
+                        <br>
+                        <img src="./imgs/Me.svg" alt="me"><b>You</b> will play against <img src="./imgs/Enemy.svg" alt="Enemy"><b>another player</b> in this turn-base game.
+                        <br>
+                        <br>
+                        You  are sitting in a grid full of obstacles (<img src="./imgs/wall.png" alt="wall"><b>walls</b> and <img src="./imgs/stop_1.svg" alt="stop"><b>stops</b>). Your aim is to collect all the <img src="./imgs/gem.svg" alt="gem"> <b>gems</b> and avoid running into <b>mines</b> <img src="./imgs/bomb.svg" alt="bomb">.
+                        You can move yourself in 4 directions using the <b>keyboard</b>. Once you start moving, it will continue until something stops it.
+                        Picking up <img src="./imgs/heart.svg" alt="heart"> <b>live</b> can increase 1 live of yours.
+                        <br>
+                        <br>
+                        Running into a mine <img src="./imgs/bomb.svg" alt="bomb"> will decrease your lives.
+                        Try to collect every gem <img src="./imgs/gem.svg" alt="gem"> without running into any of the mines.
+                        <br>
+                        <br>
+                        The game finishes after all gems are collected or any players die.
+                        <br>
+                        <br>
+                        Tips:
+                        <br>
+                        <span style="color: red">1. The first player joining the game can move first.</span>
+                        <br>
+                        <span style="color: red">2. All players have three times of teleportation, please make use of them when you cannot reach the gems.</span>
+                        <br>
+						<span style="color: red">3. You cannot teleport on your opponent and the walls.</span>
+                        <br>
+                        <span style="color: red">4. You will end your turn after TELEPORT or MOVING IN ANY DIRECTION, try not to walk into a wall.</span>
+                        <br>
+                        <span style="color: red">5. No one will tell you the cheat key will minus all enemy's status by 1 unless it has already been 0.</span>
+                        <br>
+                        <br>
+                        <b>Good Luck!</b>
+                    </p>
+                </div>
+            </div>
+
+            <div id="title"><i class="fas fa-bomb" id="bomb"></i>Inertia Game
+            </div>
+
+            <div class="spacer-grow"></div>
+
+            <div id="user-panel" class="row1">
+                <a id="sound" href="#"><i class="fa-solid fa-volume-high"></i></a>
+                <button class="trigger_About">About</button>
+                <button class="trigger_Help">Help</button>
+                <div class="field-content row1 shadow">
+                    <span class="user-name">username</span>
+                </div>
+            </div>
+        </div>
+
+        <div id="main-panel" class="row1">
+            <div id="game-panel" class="col room">                
+				<div id="gamestart">
+				  GAME START
+				</div>
+				
+                <div class="status" id="EnemyStatus">
+                    <div class="progress-container Enemy-health">
+                        <progress class="progressplayer" id="Enemy-hp" value="15" max="15"></progress>
+                    </div>
+                    <img src="./imgs/Enemy.svg" alt="Player1"><h2 id="Enemy-color">Enemy</h2>
+                    <div id="TopLives"></div>
+                    <div id="TopGems"></div>
+                    <div id="TopTeleports"></div>
+                </div>
+                
+                <!-- MainGameArea -->
+                <div id="gameArea"></div>
+                
+                <div class="TurnBoard">
+                    <h3 class="neonText">YOUR TURN</h3>
+                </div>
+                
+                <!-- Your status-->
+                <div class="status" id="YouStatus">
+                    <div class="progress-container Me-health">
+                        <progress class="progressplayer" id="Me-hp" value="15" max="15"></progress>
+                    </div>
+                    <img src="./imgs/Me.svg" alt="Player1"><h2 id="You-color">You</h2>
+                    <div id="BottomLives"></div>
+                    <div id="BottomGems"></div>
+                    <div id="BottomTeleports"></div>
+                    <div id="functions"><button id="cheat" onclick="cheatButtonClicked();">Cheat</button></div>
+                </div>               
+                
+                <div id="Room-UI">
+                        <p id="Room-UI-num">0/2 Player(s)</p>
+                        <div id="control">
+                            <span><button id="Join" onclick="socket.emit('join'); $('#Join').hide();">Join</button></span>
+                        </div>
+
+                </div>      
+            </div>               
+          
+
+
+            <div id="online-users-panel" class="col">
+                <div id="online-users-area" class="col">
+                    <div><i class="fas fa-user-circle fa-xl" id="test"></i> username</div>
+                </div>
+            </div>
+        </div>
+
+        
+            <!-- This is the Gameover pop-up Window--> 
+
+            <!-- Once the game is ended, it should show to the users-->
+
+        <div class="hover_bkgr_fricc" id="Gameover_hover">
+            <span class="helper"></span>
+            <div>
+                <div class="bubbles">
+                  <div class="bubble"></div>
+                  <div class="bubble"></div>
+                  <div class="bubble"></div>
+                  <div class="bubble"></div>
+                  <div class="bubble"></div>
+                </div>
+                <p id ="Gameover">
+                    <b>!!! Game Over !!!
+                    <br>
+                    <br>
+                    ~ You
+                    </b>
+                    <b id="Win-dummy">Win</b>
+                    <b>~</b>
+                    <br>
+                    <br>
+<!--                     <b>Total Game Time : 4:00 </b> -->
+                </p>
+                <span>                
+                    <img src="./imgs/Me.svg" alt="Player1">
+                    <img src="./imgs/vs.svg" alt="vs">
+                    <img src="./imgs/Enemy.svg" alt="Player2">
+                </span>
+                <table class="styled-table">
+                    <tr>
+                        <th>Top 3</th>
+                        <th>Player</th>
+                        <th># Gems collected</th>
+                        <th>Total wins</th>
+                    </tr>
+                    <tr id="first" class="active-row">
+                        <td>1</td>
+                        <td id="first-name">-</td>
+                        <td id="first-gem">-</td>
+                        <td id="first-win">-</td>
+                    </tr>
+                    <tr id="Second" class="active-row">
+                        <td>2</td>
+                        <td id="second-name">-</td>
+                        <td id="second-gem">-</td>
+                        <td id="second-win">-</td>
+                    </tr>
+                    <tr id="third" class="active-row">
+                        <td>3</td>
+                        <td id="third-name">-</td>
+                        <td id="third-gem">-</td>
+                        <td id="third-win">-</td>
+                    </tr>
+                </table>
+                <button onclick="exit();">Exit</button>
+
+            </div>
+        </div>
+    </div>
+
+    <div id="signin-overlay" class="overlay row1">
+        <div class="content shadow row1">
+            <div id="signin-form" class="col">
+                <h1>Game.Net <span><i class="fa-solid fa-puzzle-piece fa-beat" id="logo"></i></span></h1>
+                <div class="caption">Sign in <i class="fas fa-user-circle fa-xl"></i></div>
+                <div class="spacer-0"></div>
+                <input id="signin-username" placeholder="Username"></input>
+                <input id="signin-password" type="password" placeholder="Password"></input>
+                <div class="spacer-0"></div>
+                <button type="submit" onclick="Authentication.signIn($('#signin-username').val(), $('#signin-password').val(), socket.id);">Sign in <i class="fa fa-sign-in " aria-hidden="true" ></i></button>
+                <div id="signin-message" class="warning center"></div>
+                <a class="form__link" href="#register-form" id="linkCreateAccount">Don't have an account? Create a new account</a>
+                <div class="spacer-grow"></div>
+            </div>
+
+            <div class="spacer-0"></div>
+
+            <div id="register-form" class="col">
+
+                <div class="col">
+                     <h1>Game.Net <span><i class="fa-solid fa-puzzle-piece fa-beat" id="logo"></i></span></h1>
+                     <div class="caption">Create account <i class="fa-regular fa-pen-to-square"></i></div>
+                     <div class="spacer-0"></div>
+                    <input id="register-username" maxlength="10" placeholder="Username"></input>
+                    <input id="register-password" type="password" placeholder="Password"></input>
+                    <button type="submit"onclick="Authentication.register($('#register-username').val(), $('#register-password').val(), socket.id);">Register <span><i class="fa-solid fa-globe"></i></span></button>
+                    <div id="register-message" class="warning center"></div>
+                     <a class="form__link" href="#signin-form" id="linkLogin">Already have an account? Sign in</a>
+                </div>
+                <div class="spacer-0"></div>
+
+            </div>
+        </div>
+    </div>
+    <script src="scripts/button.js"></script> 
+    <script src="scripts/Game.js"></script> 
+	<script src="scripts/Authentication.js"></script>
+	<script src="/socket.io/socket.io.min.js"></script>
+
+<script>
+
+
+    const socket = io();        
+    const sounds = {
+        background: new Audio("./music/bgm.mp3"),
+        gameover: new Audio("./music/gameover.wav"),
+        teleport_sound: new Audio("./music/teleport.wav"),
+        move_sound: new Audio("./music/move.wav"),
+        cheat_sound: new Audio("./music/cheat.wav")
+    };
+
+
+    $(document).ready(function() {
+		
+		$("#gamestart").on("animationend", function() {
+			setTimeout(function(){
+				$("#gamestart").hide();
+			}, 1000);
+		});
+		
+        Game.createEmptyBoard();
+        $('#sound').click(()=>{
+            if (sounds.background.paused && sounds.background.currentTime >= 0 && !sounds.background.started) {
+                sounds.background.play();
+                console.log("started");
+            } else {
+                sounds.background.pause();
+            }
+        });
+        
+        $('#popupCloseButton_Intro').click(()=>{
+             $('#Intro').hide();
+             sounds.background.play();
+        });
+        //listen for the game start signal
+        //Only host and another player run this function
+        //Therefore, the audience with have isHost = -1
+        socket.on("gameInit", (host) => {
+            //the host is assigned by server, and server always the first player as host
+			console.log("received gameInit signal...");
+            if (host) {
+				console.log("this is host");
+                //The first player is the host locally
+                Game.setHost(1);
+                Game.setTurn(-1);
+				console.log("isHost:", Game.isHost);
+                //host init gameBoard
+                Game.gameBoardInit();
+                //Send data to server for broadcast
+                socket.emit("gameData", {
+                    isHost: Game.isHost,
+                    enemyCharacter: {
+                        row: 9,
+                        col: 9,
+                        live: 3,
+                        gem: 0,
+                        teleport: 3,
+                        isInStop: 0,
+                        isDeath: 0,
+                        isWin: 0
+                    },
+                    myCharacter: {
+                        row: 0,
+                        col: 0,
+                        live: 3,
+                        gem: 0,
+                        teleport: 3,
+                        isInStop: 0,
+                        isDeath: 0,
+                        isWin: 0
+                    },
+                    gameBoard: Game.gameBoard
+                });
+				
+
+				$('#gamestart').show();
+            }
+            else {
+				Game.setHost(0);
+				console.log("this is not host");
+				console.log("isHost:", Game.isHost);
+
+				$('#gamestart').show();
+			}
+
+            /*
+            Set key event
+            37: left
+            38: up
+            39: right
+            40: down
+            */
+            $(document).on("keyup", (event) => {
+				var validInput = false;
+                //console.log(Game.isHost);
+                //console.log(Game.turn);
+                //console.log("GAMETURN: " + Game.turn);
+                if ((Game.isHost && Game.turn % 2 === 1) || (!Game.isHost && Game.turn % 2 ===0)) return;
+                switch (event.keyCode) {
+                    case 37: Game.move(1); validInput = true; break;
+                    case 38: Game.move(2); validInput = true; break;
+                    case 39: Game.move(3); validInput = true; break;
+                    case 40: Game.move(4); validInput = true; break;
+                }
+				if (validInput){
+					sounds.move_sound.play();
+					//print new UI
+					socket.emit("gameData", {isHost: Game.isHost, enemyCharacter: Game.enemy, myCharacter: Game.player, gameBoard: Game.gameBoard, turn: Game.turn});
+				}
+            });
+
+            /*
+            Set onclick event to all cells
+            When player clicks any cells except wall, character will be teleported
+            */
+            $(".cell").on("click", (event) => {
+                if ((Game.isHost && Game.turn % 2 === 1) || (!Game.isHost && Game.turn % 2 ===0)) return;
+				// do nothing when teleport count is 0
+				if (Game.player.teleport === 0) return;
+				// check invalid teleportation on opponent
+				const row = Game.getPosition(event.target).row;
+				const col = Game.getPosition(event.target).col;
+				if (Game.enemy.row === row && Game.enemy.col === col) return;
+				// check invalid teleportation on wall
+				if (Game.gameBoard[row][col] == "Wall") return;
+				
+                sounds.teleport_sound.play();
+                Game.teleport(event);
+                socket.emit("gameData", {isHost: Game.isHost, enemyCharacter: Game.enemy, myCharacter: Game.player, gameBoard: Game.gameBoard, turn: Game.turn});
+            });
+
+        });
+
+        //Receive data
+        socket.on("gameData", (data, num) => {
+			// -1: audience, 0: not host, 1: host
+            if (Game.isHost !== num) return;
+			//if (Game.isHost === -1 && num !== -1) return;
+            //if (Game.isHost === 0 && num !== 0) return;
+            //if (Game.isHost === 1 && num !== 1) return;
+            $('#cheat').show();
+            Game.setTurn(data.turn);
+			//console.log("Current Turn: ", (data.turn).toString());
+            Game.setMyCharacter(data.myCharacter);
+            Game.setEnemyCharacter(data.enemyCharacter);
+            Game.setGameBoard(data.gameBoard);
+            Game.update();
+			console.log("gameData num:", num);
+			// display "your turn" when it's the player's turn
+			if ((Game.isHost === 1 && data.turn % 2 === 1) 
+			|| (Game.isHost === 0 && data.turn % 2 === 0)){
+				$('.neonText').css('opacity','0.5'); 
+			} else if (Game.isHost !== -1){
+				$('.neonText').css('opacity','1');
+			}
+        });
+
+        socket.on("memberUpdate", (list) => {
+            $("#online-users-area").empty();
+            for (let person in list) {
+                $("#online-users-area").append("<div><i class='fas fa-user-circle fa-xl' aria-hidden='true'></i> " + list[person] + "</div>");
+            }
+        });
+
+        socket.on("closeJoin", () => {
+            $("#Room-UI").hide();
+        });
+
+        socket.on("playerNumUpdate", (num) => {
+            //console.log(num);
+            $("#Room-UI-num").text(num + "/2 Player(s)");
+        });
+
+        socket.on("ranking", (username, win, gem, rank) => {
+            //console.log("a");
+            if (rank === 0) {
+                $("#first-name").text(username);
+                $("#first-gem").text(gem);
+                $("#first-win").text(win);
+            }
+            else if (rank === 1) {
+                $("#second-name").text(username);
+                $("#second-gem").text(gem);
+                $("#second-win").text(win);
+            }
+            else if (rank === 2) {
+                $("#third-name").text(username);
+                $("#third-gem").text(gem);
+                $("#third-win").text(win);
+            }
+        })
+    });
+
+    function sendWinInfo() {
+        sounds.background.pause();
+        sounds.gameover.play()
+        socket.emit("gameOver", {data: Game.player, username: Authentication.getUser(), isHost: Game.isHost}, Game.player.isWin);
+    }
+	
+	function cheatButtonClicked(){
+		if (Game.player.isWin === 0 && Game.enemy.isWin === 0){
+			Game.cheat();
+			sounds.cheat_sound.play();
+		}
+	}
+	
+    function exit() {
+        $("#Gameover_hover").hide();
+        $("#first-name").text("-");
+        $("#first-gem").text("-");
+        $("#first-win").text("-");
+        $("#second-name").text("-");
+        $("#second-gem").text("-");
+        $("#second-win").text("-");
+        $("#third-name").text("-");
+        $("#third-gem").text("-");
+        $("#third-win").text("-");
+        $("#Join").show();
+    }
+</script>
+</body>
+</html>

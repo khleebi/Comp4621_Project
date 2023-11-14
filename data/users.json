@@ -1,0 +1,37 @@
+{
+ "u1": {
+  "password": "12",
+  "Gem": 85,
+  "Win": 80
+ },
+ "u2": {
+  "password": "12",
+  "Gem": 39,
+  "Win": 37
+ },
+ "u3": {
+  "password": "12",
+  "Gem": 17,
+  "Win": 12
+ },
+ "u4": {
+  "password": "12",
+  "Gem": 3,
+  "Win": 2
+ },
+ "u5": {
+  "password": "123",
+  "Gem": 2,
+  "Win": 0
+ },
+ "userA": {
+  "password": "123",
+  "Gem": 7,
+  "Win": 6
+ },
+ "userB": {
+  "password": "123",
+  "Gem": 0,
+  "Win": 0
+ }
+}
