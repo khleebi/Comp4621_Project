@@ -7,7 +7,7 @@ https://youtu.be/oDwb6epMGs8
 
 The video demonstrates the game content.
 
-##Installation
+## Installation
 
 Ensure you have installed npm.
 
